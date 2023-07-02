@@ -22,7 +22,7 @@ RUN python -m venv venv \
  && venv/bin/python klipper/klippy/chelper/__init__.py
 ###
 ## Install z_calibration
-WORKDIR /opt
+#WORKDIR /opt
 
 RUN git clone ${REPO_ZCAL} klipper_z_calibration \
  && cd klipper_z_calibration \
