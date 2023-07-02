@@ -5,16 +5,9 @@ FROM python:3-bookworm as build
 ARG REPO=https://github.com/Klipper3d/klipper
 ARG VERSION=master
 
-
 ARG REPO_ZCAL=https://github.com/protoloft/klipper_z_calibration.git 
 ARG VERSION_ZCAL=master
 
-WORKDIR /opt
-
-RUN git clone ${REPO} klipper \
- && cd klipper \
- && git checkout ${VERSION} \
- && rm -rf .git
 
 WORKDIR /opt
 
@@ -23,6 +16,12 @@ RUN git clone ${REPO_ZCAL} klipper_z_calibration \
  && git checkout ${VERSION} \
  && rm -rf .git
 
+WORKDIR /opt
+
+RUN git clone ${REPO} klipper \
+ && cd klipper \
+ && git checkout ${VERSION} \
+ && rm -rf .git
 
 WORKDIR /opt
 
