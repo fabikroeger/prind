@@ -5,6 +5,7 @@ FROM python:3-bookworm as build
 ARG REPO=https://github.com/Klipper3d/klipper
 ARG VERSION=master
 
+
 ARG REPO_ZCAL=https://github.com/protoloft/klipper_z_calibration.git 
 ARG VERSION_ZCAL=master
 
@@ -15,19 +16,6 @@ RUN git clone ${REPO} klipper \
  && git checkout ${VERSION} \
  && rm -rf .git
 
-
-
-
-RUN python -m venv venv \
- && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
- && venv/bin/pip install numpy \
- && venv/bin/python -m compileall klipper/klippy \
- && venv/bin/python klipper/klippy/chelper/__init__.py
-###
-## Install z_calibration
-
-FROM python:3-bookworm as build
-
 WORKDIR /opt
 
 RUN git clone ${REPO_ZCAL} klipper_z_calibration \
@@ -36,12 +24,15 @@ RUN git clone ${REPO_ZCAL} klipper_z_calibration \
  && rm -rf .git
 
 
-#COPY --chown=klipper:klipper --from=build /opt/klipper_z_calibration ./klipper_z_calibration
-COPY --from=build /opt/klipper_z_calibration /opt/klipper_z_calibration
-RUN ln -sf /opt/klipper_z_calibration/z_calibration.py klipper/klippy/extras/z_calibration.py
+WORKDIR /opt
 
+RUN python -m venv venv \
+ && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
+ && venv/bin/pip install numpy \
+ && venv/bin/python -m compileall klipper/klippy \
+ && venv/bin/python klipper/klippy/chelper/__init__.py
 
-
+#RUN ln -sf /opt/klipper_z_calibration/z_calibration.py klipper/klippy/extras/z_calibration.py
 
 
 ## Klippy Runtime Image
@@ -58,6 +49,7 @@ RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data
 
 COPY --chown=klipper:klipper --from=build /opt/klipper ./klipper
 COPY --chown=klipper:klipper --from=build /opt/venv ./venv
+COPY --chown=klipper:klipper --from=build /opt/klipper_z_calibration/z_calibration.py ./klipper/klippy/extras/z_calibration.py
 
 USER klipper
 VOLUME ["/opt/printer_data/run", "/opt/printer_data/gcodes", "/opt/printer_data/logs", "/opt/printer_data/config"]
