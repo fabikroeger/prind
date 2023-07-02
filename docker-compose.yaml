@@ -135,7 +135,7 @@ services:
     profiles:
       - moonraker-telegram-bot
     volumes:
-      - gcode:/opt/printer_data/gcodes
+      - ./gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
       - ./config:/opt/printer_data/config
     labels:
