@@ -49,6 +49,7 @@ RUN mkdir -p printer_data/run printer_data/gcodes printer_data/logs printer_data
 
 COPY --chown=klipper:klipper --from=build /opt/klipper ./klipper
 COPY --chown=klipper:klipper --from=build /opt/venv ./venv
+COPY --chown=klipper:klipper --from=build /opt/klipper_z_calibration ./klipper_z_calibration
 COPY --chown=klipper:klipper --from=build /opt/klipper_z_calibration/z_calibration.py ./klipper/klippy/extras/z_calibration.py
 
 USER klipper
