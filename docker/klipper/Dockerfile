@@ -15,6 +15,9 @@ RUN git clone ${REPO} klipper \
  && git checkout ${VERSION} \
  && rm -rf .git
 
+
+
+
 RUN python -m venv venv \
  && venv/bin/pip install -r klipper/scripts/klippy-requirements.txt \
  && venv/bin/pip install numpy \
@@ -22,15 +25,19 @@ RUN python -m venv venv \
  && venv/bin/python klipper/klippy/chelper/__init__.py
 ###
 ## Install z_calibration
-#WORKDIR /opt
+
+FROM python:3-bookworm as build
+
+WORKDIR /opt
 
 RUN git clone ${REPO_ZCAL} klipper_z_calibration \
  && cd klipper_z_calibration \
  && git checkout ${VERSION} \
  && rm -rf .git
 
-COPY --chown=klipper:klipper --from=build /opt/klipper_z_calibration ./klipper_z_calibration
-#COPY --from=build /opt/klipper_z_calibration /opt/klipper_z_calibration
+
+#COPY --chown=klipper:klipper --from=build /opt/klipper_z_calibration ./klipper_z_calibration
+COPY --from=build /opt/klipper_z_calibration /opt/klipper_z_calibration
 RUN ln -sf /opt/klipper_z_calibration/z_calibration.py klipper/klippy/extras/z_calibration.py
 
 
