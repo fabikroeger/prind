@@ -4,7 +4,10 @@ services:
   ## Klippy Services
   ##
   klipper:
-    image: mkuf/klipper:latest
+    image: fabian/klipper
+    build:
+      context: docker/klipper
+      target: run 
     restart: unless-stopped
     privileged: true
     logging:
