@@ -22,6 +22,8 @@ services:
       - run:/opt/printer_data/run
       - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
+    devices:
+      - /dev/ttyACM0:/dev/ttyUSB0
     labels:
       org.prind.service: klipper
 
