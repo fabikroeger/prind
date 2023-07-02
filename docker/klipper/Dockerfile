@@ -5,6 +5,9 @@ FROM python:3-bookworm as build
 ARG REPO=https://github.com/Klipper3d/klipper
 ARG VERSION=master
 
+ARG REPO_ZCAL=https://github.com/protoloft/klipper_z_calibration.git 
+ARG VERSION_ZCAL=master
+
 WORKDIR /opt
 
 RUN git clone ${REPO} klipper \
@@ -18,6 +21,18 @@ RUN python -m venv venv \
  && venv/bin/python -m compileall klipper/klippy \
  && venv/bin/python klipper/klippy/chelper/__init__.py
 ###
+## Install z_calibration
+WORKDIR /opt
+
+RUN git clone ${REPO_ZCAL} klipper_z_calibration \
+ && cd klipper_z_calibration \
+ && git checkout ${VERSION} \
+ && rm -rf .git
+
+ RUN ln -sf klipper_z_calibration/z_calibration.py klipper/klippy/extras/z_calibration.py
+
+
+
 
 
 ## Klippy Runtime Image
