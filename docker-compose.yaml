@@ -49,7 +49,7 @@ services:
       - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
       - moonraker-db:/opt/printer_data/database
-      - ./config:/opt/printer_data/config
+      - ./config_jet_exe:/opt/printer_data/config
     profiles:
       - fluidd
       - mainsail
