@@ -1,0 +1,4 @@
+[submodule "config_jet_exe"]
+	path = config_jet_exe
+	url = https://github.com/fabikroeger/config.git
+	branch = master
