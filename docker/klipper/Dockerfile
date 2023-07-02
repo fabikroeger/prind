@@ -29,7 +29,9 @@ RUN git clone ${REPO_ZCAL} klipper_z_calibration \
  && git checkout ${VERSION} \
  && rm -rf .git
 
- RUN ln -sf klipper_z_calibration/z_calibration.py klipper/klippy/extras/z_calibration.py
+COPY --chown=klipper:klipper --from=build /opt/klipper_z_calibration ./klipper_z_calibration
+#COPY --from=build /opt/klipper_z_calibration /opt/klipper_z_calibration
+RUN ln -sf /opt/klipper_z_calibration/z_calibration.py klipper/klippy/extras/z_calibration.py
 
 
 
