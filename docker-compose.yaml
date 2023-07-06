@@ -46,7 +46,7 @@ services:
       - /run/dbus:/run/dbus
       - /run/systemd:/run/systemd
       - run:/opt/printer_data/run
-      - ./gcode:/opt/printer_data/gcodes
+      - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
       - moonraker-db:/opt/printer_data/database
       - ./config_jet_exe:/opt/printer_data/config
@@ -135,7 +135,7 @@ services:
     profiles:
       - moonraker-telegram-bot
     volumes:
-      - ./gcode:/opt/printer_data/gcodes
+      - gcode:/opt/printer_data/gcodes
       - log:/opt/printer_data/logs
       - ./config:/opt/printer_data/config
     labels:
